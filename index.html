@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Join a Zoom Meeting from the Zoom Workplace app or directly from your browser.">
+<title>Join Meeting - Zoom</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230b5cff'/%3E%3Crect x='6.5' y='11' width='13' height='10' rx='2.6' fill='%23fff'/%3E%3Cpath d='M21 15.7l3.6-2.2c.6-.4 1.4.1 1.4.8v3.4c0 .7-.8 1.2-1.4.8L21 16.3z' fill='%23fff'/%3E%3C/svg%3E">
+<style>
+  :root {
+    --blue: #0b5cff;
+    --blue-hover: #0a4ed8;
+    --ink: #1d1d1f;
+    --ink-soft: #5b5b60;
+    --line: #e6e6e8;
+  }
+
+  *,
+  *::before,
+  *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: #ffffff;
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.4;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  a {
+    color: var(--blue);
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+
+  /* ---------- Header ---------- */
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 18px 32px;
+    border-bottom: 1px solid var(--line);
+    background: #fff;
+  }
+
+  .logo {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .logo svg {
+    display: block;
+    height: 26px;
+    width: auto;
+  }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    font-size: 14px;
+  }
+
+  .header-right > a {
+    color: var(--blue);
+  }
+
+  .lang {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 2px;
+    border: 0;
+    border-radius: 4px;
+    background: none;
+    color: var(--blue);
+    font: inherit;
+    font-size: 14px;
+    cursor: pointer;
+  }
+
+  .lang:hover {
+    text-decoration: underline;
+  }
+
+  .lang svg {
+    width: 11px;
+    height: 8px;
+    flex: none;
+  }
+
+  .lang:focus-visible,
+  .header-right > a:focus-visible {
+    outline: 2px solid var(--blue);
+    outline-offset: 3px;
+    border-radius: 3px;
+  }
+
+  /* ---------- Main ---------- */
+  .main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 96px 24px 56px;
+    text-align: center;
+  }
+
+  h1 {
+    margin-bottom: 44px;
+    font-size: 28px;
+    line-height: 1.25;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+    color: var(--ink);
+  }
+
+  .actions {
+    width: 100%;
+    max-width: 460px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 48px;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font: inherit;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color .15s ease, border-color .15s ease,
+                box-shadow .15s ease, transform .06s ease;
+  }
+
+  .btn:hover {
+    text-decoration: none;
+  }
+
+  .btn:active {
+    transform: translateY(1px);
+  }
+
+  .btn:focus-visible {
+    outline: 2px solid var(--blue);
+    outline-offset: 2px;
+  }
+
+  .btn-primary {
+    margin-bottom: 12px;
+    background-color: var(--blue);
+    color: #fff;
+    border: 0;
+    box-shadow: 0 1px 2px rgba(11, 92, 255, .18);
+  }
+
+  .btn-primary:hover {
+    background-color: var(--blue-hover);
+  }
+
+  .btn-secondary {
+    background-color: #fff;
+    color: var(--ink);
+    border: 1px solid #cfcfd4;
+  }
+
+  .btn-secondary:hover {
+    background-color: #f6f7f9;
+    border-color: #b9b9c0;
+  }
+
+  .download-text {
+    margin-top: 32px;
+    font-size: 15px;
+    color: var(--ink);
+  }
+
+  .terms-text {
+    margin-top: 44px;
+    max-width: 520px;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--ink-soft);
+  }
+
+  /* ---------- Small screens ---------- */
+  @media (max-width: 640px) {
+    .header {
+      padding: 14px 20px;
+    }
+
+    .header-right {
+      gap: 18px;
+    }
+
+    .main {
+      padding: 56px 20px 40px;
+    }
+
+    h1 {
+      margin-bottom: 32px;
+      font-size: 23px;
+    }
+  }
+</style>
+</head>
+<body>
+
+  <header class="header">
+    <a class="logo" href="#" aria-label="Zoom home">
+      <svg viewBox="0 0 205 68" role="img" aria-label="Zoom" xmlns="http://www.w3.org/2000/svg">
+        <g fill="none" stroke="#0B5CFF" stroke-width="11" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M8 19.5H40L8 48.5H40"/>
+          <circle cx="68" cy="34" r="14.5"/>
+          <circle cx="111" cy="34" r="14.5"/>
+          <path stroke-linecap="butt" d="M139 54V34a14.5 14.5 0 0 1 29 0v20M168 34a14.5 14.5 0 0 1 29 0v20"/>
+        </g>
+      </svg>
+    </a>
+
+    <div class="header-right">
+      <a href="#">Support</a>
+      <button class="lang" type="button" aria-haspopup="listbox" aria-label="Change language">
+        English
+        <svg viewBox="0 0 12 8" aria-hidden="true">
+          <path d="M1 1.5 6 6.5l5-5" fill="none" stroke="currentColor"
+                stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <main class="main">
+    <h1>Join Meeting</h1>
+
+    <div class="actions">
+      <a href="loading.html" class="btn btn-primary">Join from Zoom Workplace app</a>
+      <a href="loading.html" class="btn btn-secondary">Join from browser</a>
+
+      <p class="download-text">
+        Don&rsquo;t have the Zoom Workplace app installed? <a href="#">Download Now</a>
+      </p>
+
+      <p class="terms-text">
+        By joining a meeting, you agree to our <a href="#">Terms of Service</a>
+        and <a href="#">Privacy Statement</a>.
+      </p>
+    </div>
+  </main>
+
+</body>
+</html>
